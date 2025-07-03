@@ -1,0 +1,17 @@
+CognitoDefault:
+  api_endpoint_url: https://XXXXXXXX.execute-api.us-east-1.amazonaws.com/prod
+  auth_server: default
+  auth_type: CognitoAuth
+  client_id: XXXXXXXXXXX
+  config_type: LOCAL
+  creds_path: /home/ANT.AMAZON.COM/kalosp/projects/dataall-core/tests/unit/test_profile/credentials.yaml
+  idp_domain_url: XXXXXXXXXXX
+  redirect_uri: https://XXXXXXXXXX
+CustomDefault:
+  api_endpoint_url: https://XXXXXXXX.execute-api.us-east-1.amazonaws.com/prod
+  auth_type: CustomAuth
+  client_id: XXXXXXXXXXX
+  client_secret: XXXXXXXXXXX
+  idp_domain_url: XXXXXXXXXXX
+  redirect_uri: https://XXXXXXXXXX
+  session_token_endpoint: https://XXXXXXXXX.com/api/v1/authn
