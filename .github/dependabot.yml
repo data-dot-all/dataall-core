@@ -1,0 +1,13 @@
+version: 2
+updates:
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      time: "09:00"
+      timezone: "Europe/London"
+    groups:
+        production-dependencies:
+          dependency-type: "production"
+        development-dependencies:
+          dependency-type: "development"
