@@ -1,5 +1,6 @@
 import json
 import os
+import tempfile
 from pathlib import Path
 
 import boto3
@@ -207,17 +208,17 @@ def test_get_profile_dne():
 
 def test_get_profile():
     profile = get_profile(profile="CognitoDefault", config_path=PROFILE_CONFIG)
-    assert type(profile) == Profile
+    assert isinstance(profile, Profile)
 
 
 def test_get_profile_custom():
     profile = get_profile(profile="CustomDefault", config_path=PROFILE_CONFIG)
-    assert type(profile) == Profile
+    assert isinstance(profile, Profile)
 
 
 def test_get_profile_secret(create_secret, secret_profile_arn):
     profile = get_profile(profile="secrets", secret_arn=secret_profile_arn)
-    assert type(profile) == Profile
+    assert isinstance(profile, Profile)
     assert profile.config_type == ConfigType.SECRET.value
 
 
@@ -229,10 +230,12 @@ def test_save_profile():
     profile.creds_path = PROFILE_CREDS
     profile_params = profile.__dict__
 
-    save_profile(profile=profile, config_path=PROFILE_CONFIG)
-    profile = get_profile(profile=profile_name, config_path=PROFILE_CONFIG)
+    with tempfile.NamedTemporaryFile() as output_file:
+        output_profile = Path(output_file.name)
+        save_profile(profile=profile, config_path=output_profile)
+        profile = get_profile(profile=profile_name, config_path=output_profile)
 
-    for k, v in profile_params.items():
-        assert getattr(profile, k) == v
+        for k, v in profile_params.items():
+            assert getattr(profile, k) == v
 
-    assert type(profile) == Profile
+        assert isinstance(profile, Profile)

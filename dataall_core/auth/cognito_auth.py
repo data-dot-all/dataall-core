@@ -112,7 +112,7 @@ class CognitoAuth(AuthorizationClass):
             include_client_id=True,
         )
         self.set_profile_tokens(
-            token.get("access_token", ""),  # type: ignore
-            datetime.fromtimestamp(token.get("expires_at", "")),  # type: ignore
-            token.get("refresh_token", ""),  # type: ignore
+            token.get("access_token", ""),
+            datetime.fromtimestamp(token.get("expires_at", "")),
+            token.get("refresh_token", ""),
         )
