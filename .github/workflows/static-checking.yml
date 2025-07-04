@@ -34,3 +34,5 @@ jobs:
           poetry install --all-extras -vvv
       - name: validate
         run: ./validate.sh
+      - name: tests
+        run: ./test.sh
