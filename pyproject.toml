@@ -1,82 +1,76 @@
-[tool.poetry]
-name = "dataall_core"
-version = "0.3.0a1"
+[project]
+name = "dataall-core"
+version = "0.4.1"
 description = "AWS data.all core"
-authors = ["Amazon Web Services"]
-license = "Apache License 2.0"
-
+authors = [{ name = "Amazon Web Services" }]
+license = { text = "Apache License 2.0" }
 readme = "README.md"
-
-include = ["README.md"]
-
-exclude = ["*.so", "*.pyc", "*~", "#*", ".git*", ".coverage*", "DS_Store", "__pycache__"]
-
-
 keywords = ["dataall", "aws"]
-
 classifiers = [
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
 ]
+requires-python = ">=3.9, <4.0"
+dependencies = [
+    "boto3>=1.28.22,<2.0.0",
+    "botocore>=1.31.22,<2.0.0",
+    "typing-extensions>=4.4.0,<5.0.0",
+    "packaging>=21.1,<24.0",
+    "click>=8.1.6,<9.0.0",
+    "ariadne>=0.22,<1.0.0",
+    "atomicfile>=1.0.1,<2.0.0",
+    "beautifulsoup4>=4.12.2,<5.0.0",
+    "build>=0.10.0,<1.0.0",
+    "PyYAML>=6.0.1,<7.0.0",
+    "requests>=2.31.0,<3.0.0",
+    "configparser>=6.0.0,<7.0.0",
+    "graphql-core>=3.2.3,<4.0.0",
+    "httpx>=0.27.0,<1.0.0",
+    "retrying>=1.3.4,<2.0.0",
+    "setuptools; python_version >= '3.12'",
+    "requests-oauthlib>=2.0.0,<3.0.0",
+    "requests-mock>=1.12.1,<2.0.0",
+    "certifi>=2024.7.4",
+]
 
-[tool.poetry.dependencies]
-python = ">=3.9, <4.0"
-
-# Required
-boto3 = "^1.28.22"
-botocore = "^1.31.22"
-typing-extensions = "^4.4.0"
-packaging = ">=21.1,<24.0"
-click = "^8.1.6"
-ariadne = "^0.22"
-atomicfile = "^1.0.1"
-beautifulsoup4 = "^4.12.2"
-build = "^0.10.0"
-PyYAML = "^6.0.1"
-requests = "^2.31.0"
-configparser= "^6.0.0"
-graphql-core = "^3.2.3"
-httpx = "^0.27.0"
-retrying= "^1.3.4"
-
-# needed because Py 3.12 removed distutils, which some libraries still need
-setuptools = {version = "*", markers = "python_version >= \"3.12\""}
-requests-oauthlib = "^2.0.0"
-requests-mock = "^1.12.1"
-certifi = "^2024.7.4"
+[tool.poetry]
+include = ["README.md"]
+exclude = ["*.so", "*.pyc", "*~", "#*", ".git*", ".coverage*", "DS_Store", "__pycache__"]
 
 
-[tool.poetry.dev-dependencies]
+
+
+[tool.poetry.group.dev.dependencies]
 # Build
 setuptools = "*"
-wheel = "^0.42.0"
+wheel = "^0.45.1"
 msgpack = "*"
 
 # Lint
-boto3-stubs = {version = "^1.34.14", extras = ["athena", "cleanrooms", "chime", "cloudwatch", "dynamodb", "ec2", "emr", "emr-serverless", "glue", "kms", "lakeformation", "logs", "neptune", "opensearch", "opensearchserverless", "quicksight", "rds", "rds-data", "redshift", "redshift-data", "s3", "secretsmanager", "ssm", "sts", "timestream-query", "timestream-write"]}
+boto3-stubs = { version = "^1.39.3", extras = ["athena", "cleanrooms", "chime", "cloudwatch", "dynamodb", "ec2", "emr", "emr-serverless", "glue", "kms", "lakeformation", "logs", "neptune", "opensearch", "opensearchserverless", "quicksight", "rds", "rds-data", "redshift", "redshift-data", "s3", "secretsmanager", "ssm", "sts", "timestream-query", "timestream-write"] }
 doc8 = "^1.0"
-mypy = "^1.8"
-pylint = "^3.0"
-ruff = "^0.1.11"
+mypy = "^1.16"
+pylint = "^3.3"
+ruff = "^0.12.2"
 
 # Test
-moto = "^5.0"
+moto = "^5.1"
 openpyxl = "^3.0"
-pyparsing = "^3.0.7"
-pytest = "^7.4.4"
-pytest-mock = "^3.14.0"
-pytest-cov = "^4.0"
-pytest-rerunfailures = "^13.0"
-pytest-timeout = "^2.1.0"
-pytest-xdist = "^3.0.2"
-respx = "^0.21.0"
+pyparsing = "^3.2.3"
+pytest = "^8.4.1"
+pytest-mock = "^3.14.1"
+pytest-cov = "^6.2"
+pytest-rerunfailures = "^15.1"
+pytest-timeout = "^2.4.0"
+pytest-xdist = "^3.8.0"
+respx = "^0.22.0"
 tox = "^4.5.0"
 
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
+requires = ["poetry-core>=2.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.ruff]
@@ -124,15 +118,17 @@ markers = [
 
 [tool.coverage.run]
 branch = true
-omit = [
-    "awswrangler/distributed/*",
-    "awswrangler/neptune/_utils.py",
-    "awswrangler/opensearch/_utils.py",
-    "awswrangler/chime.py",
-]
 
 [tool.coverage.report]
 show_missing = true
 
 [tool.bandit]
 exclude_dirs = ["tests"]
+
+[tool.pylint.main]
+jobs = 0
+fail-under = 9
+
+[tool.pylint.messages_control]
+disable = "all"
+enable = ["R0911", "R0912", "R0913", "R0915"]

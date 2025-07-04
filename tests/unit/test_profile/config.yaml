@@ -4,7 +4,7 @@ CognitoDefault:
   auth_type: CognitoAuth
   client_id: XXXXXXXXXXX
   config_type: LOCAL
-  creds_path: /home/ANT.AMAZON.COM/kalosp/projects/dataall-core/tests/unit/test_profile/credentials.yaml
+  creds_path: XXX/credentials.yaml
   idp_domain_url: XXXXXXXXXXX
   redirect_uri: https://XXXXXXXXXX
 CustomDefault:

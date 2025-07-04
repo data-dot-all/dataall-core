@@ -1,4 +1,5 @@
 import json
+import uuid
 from unittest.mock import MagicMock
 
 import pytest
@@ -99,7 +100,7 @@ def test_dataall_client_init_mock_loader(mock_loader):
 
 def test_dataall_client_create_methods_default(mock_loader):
     client = DataallClient(loader=mock_loader)
-    base_client = client.client()
+    base_client = client.client(config_path=f"{uuid.uuid4()}.yaml")
     assert isinstance(base_client, BaseClient)
     assert getattr(base_client, "test_query1") and callable(
         getattr(base_client, "test_query1")
