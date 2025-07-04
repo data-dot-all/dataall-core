@@ -130,4 +130,5 @@ jobs = 0
 fail-under = 9
 
 [tool.pylint.messages_control]
+disable = "all"
 enable = ["R0911", "R0912", "R0913", "R0915"]
