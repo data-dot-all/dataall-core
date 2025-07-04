@@ -1,54 +1,48 @@
-[tool.poetry]
+[project]
 name = "dataall_core"
 version = "0.3.0a1"
 description = "AWS data.all core"
-authors = ["Amazon Web Services"]
-license = "Apache License 2.0"
-
+authors = [{name = "Amazon Web Services"}]
+license = {text = "Apache License 2.0"}
 readme = "README.md"
-
-include = ["README.md"]
-
-exclude = ["*.so", "*.pyc", "*~", "#*", ".git*", ".coverage*", "DS_Store", "__pycache__"]
-
-
 keywords = ["dataall", "aws"]
-
 classifiers = [
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
 ]
+requires-python = ">=3.9, <4.0"
+dependencies = [
+    "boto3>=1.28.22,<2.0.0",
+    "botocore>=1.31.22,<2.0.0",
+    "typing-extensions>=4.4.0,<5.0.0",
+    "packaging>=21.1,<24.0",
+    "click>=8.1.6,<9.0.0",
+    "ariadne>=0.22,<1.0.0",
+    "atomicfile>=1.0.1,<2.0.0",
+    "beautifulsoup4>=4.12.2,<5.0.0",
+    "build>=0.10.0,<1.0.0",
+    "PyYAML>=6.0.1,<7.0.0",
+    "requests>=2.31.0,<3.0.0",
+    "configparser>=6.0.0,<7.0.0",
+    "graphql-core>=3.2.3,<4.0.0",
+    "httpx>=0.27.0,<1.0.0",
+    "retrying>=1.3.4,<2.0.0",
+    "setuptools; python_version >= '3.12'",
+    "requests-oauthlib>=2.0.0,<3.0.0",
+    "requests-mock>=1.12.1,<2.0.0",
+    "certifi>=2024.7.4",
+]
 
-[tool.poetry.dependencies]
-python = ">=3.9, <4.0"
-
-# Required
-boto3 = "^1.28.22"
-botocore = "^1.31.22"
-typing-extensions = "^4.4.0"
-packaging = ">=21.1,<24.0"
-click = "^8.1.6"
-ariadne = "^0.22"
-atomicfile = "^1.0.1"
-beautifulsoup4 = "^4.12.2"
-build = "^0.10.0"
-PyYAML = "^6.0.1"
-requests = "^2.31.0"
-configparser= "^6.0.0"
-graphql-core = "^3.2.3"
-httpx = "^0.27.0"
-retrying= "^1.3.4"
-
-# needed because Py 3.12 removed distutils, which some libraries still need
-setuptools = {version = "*", markers = "python_version >= \"3.12\""}
-requests-oauthlib = "^2.0.0"
-requests-mock = "^1.12.1"
-certifi = "^2024.7.4"
+[tool.poetry]
+include = ["README.md"]
+exclude = ["*.so", "*.pyc", "*~", "#*", ".git*", ".coverage*", "DS_Store", "__pycache__"]
 
 
-[tool.poetry.dev-dependencies]
+
+
+[tool.poetry.group.dev.dependencies]
 # Build
 setuptools = "*"
 wheel = "^0.42.0"
@@ -76,7 +70,7 @@ tox = "^4.5.0"
 
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
+requires = ["poetry-core>=2.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.ruff]
@@ -124,12 +118,6 @@ markers = [
 
 [tool.coverage.run]
 branch = true
-omit = [
-    "awswrangler/distributed/*",
-    "awswrangler/neptune/_utils.py",
-    "awswrangler/opensearch/_utils.py",
-    "awswrangler/chime.py",
-]
 
 [tool.coverage.report]
 show_missing = true
