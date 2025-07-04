@@ -124,3 +124,10 @@ show_missing = true
 
 [tool.bandit]
 exclude_dirs = ["tests"]
+
+[tool.pylint.main]
+jobs = 0
+fail-under = 9
+
+[tool.pylint.messages_control]
+enable = ["R0911", "R0912", "R0913", "R0915"]
