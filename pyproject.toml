@@ -1,6 +1,6 @@
 [project]
-name = "dataall_core"
-version = "0.3.0a1"
+name = "dataall-core"
+version = "0.3.0a2"
 description = "AWS data.all core"
 authors = [{name = "Amazon Web Services"}]
 license = {text = "Apache License 2.0"}
@@ -36,6 +36,7 @@ dependencies = [
 ]
 
 [tool.poetry]
+name = "dataall-core"
 include = ["README.md"]
 exclude = ["*.so", "*.pyc", "*~", "#*", ".git*", ".coverage*", "DS_Store", "__pycache__"]
 
