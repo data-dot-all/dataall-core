@@ -207,17 +207,17 @@ def test_get_profile_dne():
 
 def test_get_profile():
     profile = get_profile(profile="CognitoDefault", config_path=PROFILE_CONFIG)
-    assert type(profile) == Profile
+    assert isinstance(profile, Profile)
 
 
 def test_get_profile_custom():
     profile = get_profile(profile="CustomDefault", config_path=PROFILE_CONFIG)
-    assert type(profile) == Profile
+    assert isinstance(profile, Profile)
 
 
 def test_get_profile_secret(create_secret, secret_profile_arn):
     profile = get_profile(profile="secrets", secret_arn=secret_profile_arn)
-    assert type(profile) == Profile
+    assert isinstance(profile, Profile)
     assert profile.config_type == ConfigType.SECRET.value
 
 
@@ -235,4 +235,4 @@ def test_save_profile():
     for k, v in profile_params.items():
         assert getattr(profile, k) == v
 
-    assert type(profile) == Profile
+    assert isinstance(profile, Profile)
