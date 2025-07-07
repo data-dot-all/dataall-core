@@ -1,6 +1,6 @@
 [project]
 name = "dataall-core"
-version = "0.3.0a2"
+version = "0.3.0a1"
 description = "AWS data.all core"
 authors = [{name = "Amazon Web Services"}]
 license = {text = "Apache License 2.0"}
