@@ -1,6 +1,6 @@
 [project]
 name = "dataall-core"
-version = "0.3.1a1"
+version = "0.4.0"
 description = "AWS data.all core"
 authors = [{ name = "Amazon Web Services" }]
 license = { text = "Apache License 2.0" }
@@ -135,4 +135,4 @@ disable = "all"
 enable = ["R0911", "R0912", "R0913", "R0915"]
 
 [tool.bumpversion]
-current_version = "0.3.1a1"
+version = "0.4.0"
