@@ -11,6 +11,7 @@ from typing import Any, Optional, Tuple, cast
 
 import bs4
 import httpx
+from bs4 import Tag
 
 from dataall_core.auth import AuthorizationClass
 from dataall_core.profile import Profile
@@ -129,12 +130,12 @@ class CustomAuth(AuthorizationClass):
         response.raise_for_status()
 
         page = bs4.BeautifulSoup(response.text, "html.parser")
-        params = {
-            e["name"]: e.get("value", "")
-            for e in page.find_all("input", {"name": True})
-        }
+        params = {}
+        for e in page.find_all("input", {"name": True}):
+            if isinstance(e, Tag) and e.get("name"):
+                params[str(e["name"])] = str(e.get("value", ""))
 
-        return params["code"], code_verifier
+        return str(params.get("code", "")), code_verifier
 
     def _get_token_custom(
         self, token_endpoint: str, code: str, code_verifier: str
