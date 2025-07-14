@@ -53,7 +53,7 @@ boto3-stubs = { version = "^1.39.3", extras = ["athena", "cleanrooms", "chime", 
 doc8 = "^1.0"
 mypy = "^1.16"
 pylint = "^3.3"
-ruff = "^0.12.2"
+ruff = "^0.12.3"
 
 # Test
 moto = "^5.1"
