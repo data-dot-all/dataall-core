@@ -53,7 +53,7 @@ boto3-stubs = { version = "^1.39.3", extras = ["athena", "cleanrooms", "chime", 
 doc8 = "^1.0"
 mypy = "^1.16"
 pylint = "^3.3"
-ruff = "^0.12.2"
+ruff = "^0.14.1"
 
 # Test
 moto = "^5.1"
@@ -61,12 +61,12 @@ openpyxl = "^3.0"
 pyparsing = "^3.2.3"
 pytest = "^8.4.1"
 pytest-mock = "^3.14.1"
-pytest-cov = "^6.2"
-pytest-rerunfailures = "^15.1"
+pytest-cov = "^7.0"
+pytest-rerunfailures = "^16.0"
 pytest-timeout = "^2.4.0"
 pytest-xdist = "^3.8.0"
 respx = "^0.22.0"
-tox = "^4.5.0"
+tox = "^4.30.3"
 
 
 [build-system]
