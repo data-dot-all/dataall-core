@@ -23,28 +23,27 @@ trio = ["trio (>=0.31.0)"]
 
 [[package]]
 name = "ariadne"
-version = "0.26.2"
+version = "0.24.0"
 description = "Ariadne is a Python library for implementing GraphQL servers."
 optional = false
-python-versions = ">=3.9"
+python-versions = "*"
 groups = ["main"]
 files = [
-    {file = "ariadne-0.26.2-py3-none-any.whl", hash = "sha256:8d272c73a751d30a1c9c367318a317483588a51c335351d7342f23f109816a92"},
-    {file = "ariadne-0.26.2.tar.gz", hash = "sha256:607617f82760c039b2137b7c1200b475ea90ccf4ca42c0994926c0d8fdede908"},
+    {file = "ariadne-0.24.0-py2.py3-none-any.whl", hash = "sha256:aee510e72954a84052c0705b5ed8db7f6ff82d782b9a0a8ead58b4776e3246c9"},
+    {file = "ariadne-0.24.0.tar.gz", hash = "sha256:6ea3f53d7e54d83b011e5697795ab7f8a713cb5f9423d6849e43a84f2fe81293"},
 ]
 
 [package.dependencies]
-graphql-core = ">=3.2.0,<3.2.6"
+graphql-core = ">=3.2.0,<3.3"
 starlette = ">0.17,<1.0"
 typing-extensions = ">=3.6.0"
 
 [package.extras]
-asgi-file-uploads = ["python-multipart (>=0.0.13)"]
-dev = ["ipdb"]
+asgi-file-uploads = ["python-multipart (>=0.0.5)"]
+dev = ["black", "mypy", "pylint"]
 telemetry = ["opentelemetry-api"]
-test = ["aiodataloader", "freezegun", "graphql-sync-dataloaders ; python_version > \"3.7\"", "httpx", "opentelemetry-api", "opentracing", "pytest", "pytest-asyncio", "pytest-benchmark", "pytest-cov", "pytest-mock", "python-multipart (>=0.0.13)", "syrupy", "werkzeug"]
+test = ["aiodataloader", "freezegun", "graphql-sync-dataloaders ; python_version > \"3.7\"", "httpx", "opentelemetry-api", "opentracing", "pytest", "pytest-asyncio", "pytest-benchmark", "pytest-cov", "pytest-mock", "python-multipart (>=0.0.5)", "syrupy", "werkzeug"]
 tracing = ["opentracing"]
-types = ["mypy (>=1.0.0)"]
 
 [[package]]
 name = "astroid"
@@ -98,18 +97,18 @@ lxml = ["lxml"]
 
 [[package]]
 name = "boto3"
-version = "1.40.55"
+version = "1.40.74"
 description = "The AWS SDK for Python"
 optional = false
 python-versions = ">=3.9"
 groups = ["main", "dev"]
 files = [
-    {file = "boto3-1.40.55-py3-none-any.whl", hash = "sha256:2e30f5a0d49e107b8a5c0c487891afd300bfa410e1d918bf187ae45ac3839332"},
-    {file = "boto3-1.40.55.tar.gz", hash = "sha256:27e35b4fa9edd414ce06c1a748bf57cacd8203271847d93fc1053e4a4ec6e1a9"},
+    {file = "boto3-1.40.74-py3-none-any.whl", hash = "sha256:41fc8844b37ae27b24bcabf8369769df246cc12c09453988d0696ad06d6aa9ef"},
+    {file = "boto3-1.40.74.tar.gz", hash = "sha256:484e46bf394b03a7c31b34f90945ebe1390cb1e2ac61980d128a9079beac87d4"},
 ]
 
 [package.dependencies]
-botocore = ">=1.40.55,<1.41.0"
+botocore = ">=1.40.74,<1.41.0"
 jmespath = ">=0.7.1,<2.0.0"
 s3transfer = ">=0.14.0,<0.15.0"
 
@@ -579,14 +578,14 @@ xray = ["mypy-boto3-xray (>=1.40.0,<1.41.0)"]
 
 [[package]]
 name = "botocore"
-version = "1.40.55"
+version = "1.40.74"
 description = "Low-level, data-driven core of boto 3."
 optional = false
 python-versions = ">=3.9"
 groups = ["main", "dev"]
 files = [
-    {file = "botocore-1.40.55-py3-none-any.whl", hash = "sha256:cdc38f7a4ddb30a2cd1cdd4fabde2a5a16e41b5a642292e1c30de5c4e46f5d44"},
-    {file = "botocore-1.40.55.tar.gz", hash = "sha256:79b6472e2de92b3519d44fc1eec8c5feced7f99a0d10fdea6dc93133426057c1"},
+    {file = "botocore-1.40.74-py3-none-any.whl", hash = "sha256:f39f5763e35e75f0bd91212b7b36120b1536203e8003cd952ef527db79702b15"},
+    {file = "botocore-1.40.74.tar.gz", hash = "sha256:57de0b9ffeada06015b3c7e5186c77d0692b210d9e5efa294f3214df97e2f8ee"},
 ]
 
 [package.dependencies]
@@ -598,7 +597,7 @@ urllib3 = [
 ]
 
 [package.extras]
-crt = ["awscrt (==0.27.6)"]
+crt = ["awscrt (==0.28.4)"]
 
 [[package]]
 name = "botocore-stubs"
@@ -656,14 +655,14 @@ files = [
 
 [[package]]
 name = "certifi"
-version = "2025.10.5"
+version = "2025.11.12"
 description = "Python package for providing Mozilla's CA Bundle."
 optional = false
 python-versions = ">=3.7"
 groups = ["main", "dev"]
 files = [
-    {file = "certifi-2025.10.5-py3-none-any.whl", hash = "sha256:0f212c2744a9bb6de0c56639a6f68afe01ecd92d91f14ae897c4fe7bbeeef0de"},
-    {file = "certifi-2025.10.5.tar.gz", hash = "sha256:47c09d31ccf2acf0be3f701ea53595ee7e0b8fa08801c6624be771df09ae7b43"},
+    {file = "certifi-2025.11.12-py3-none-any.whl", hash = "sha256:97de8790030bbd5c2d96b7ec782fc2f7820ef8dba6db909ccf95449f2d062d4b"},
+    {file = "certifi-2025.11.12.tar.gz", hash = "sha256:d8ab5478f2ecd78af242878415affce761ca6bc54a22a27e026d7c25357c3316"},
 ]
 
 [[package]]
@@ -1453,18 +1452,18 @@ files = [
 
 [[package]]
 name = "graphql-core"
-version = "3.2.5"
+version = "3.2.7"
 description = "GraphQL implementation for Python, a port of GraphQL.js, the JavaScript reference implementation for GraphQL."
 optional = false
-python-versions = "<4,>=3.6"
+python-versions = "<4,>=3.7"
 groups = ["main"]
 files = [
-    {file = "graphql_core-3.2.5-py3-none-any.whl", hash = "sha256:2f150d5096448aa4f8ab26268567bbfeef823769893b39c1a2e1409590939c8a"},
-    {file = "graphql_core-3.2.5.tar.gz", hash = "sha256:e671b90ed653c808715645e3998b7ab67d382d55467b7e2978549111bbabf8d5"},
+    {file = "graphql_core-3.2.7-py3-none-any.whl", hash = "sha256:17fc8f3ca4a42913d8e24d9ac9f08deddf0a0b2483076575757f6c412ead2ec0"},
+    {file = "graphql_core-3.2.7.tar.gz", hash = "sha256:27b6904bdd3b43f2a0556dad5d579bdfdeab1f38e8e8788e555bdcb586a6f62c"},
 ]
 
 [package.dependencies]
-typing-extensions = {version = ">=4,<5", markers = "python_version < \"3.10\""}
+typing-extensions = {version = ">=4.7,<5", markers = "python_version < \"3.10\""}
 
 [[package]]
 name = "h11"
