@@ -45,7 +45,7 @@ exclude = ["*.so", "*.pyc", "*~", "#*", ".git*", ".coverage*", "DS_Store", "__py
 [tool.poetry.group.dev.dependencies]
 # Build
 setuptools = "*"
-wheel = "^0.45.1"
+wheel = "^0.46.2"
 msgpack = "*"
 
 # Lint
