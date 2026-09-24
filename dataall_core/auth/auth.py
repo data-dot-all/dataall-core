@@ -6,6 +6,7 @@ from abc import ABC, abstractmethod
 from datetime import datetime
 from typing import Optional, cast
 
+from dataall_core.exceptions import MissingParametersException
 from dataall_core.profile import ConfigType, Profile
 
 logger = logging.getLogger(__name__)
@@ -33,6 +34,10 @@ class AuthorizationClass(ABC):
 
         :return: JWT token
         """
+        if cast(Optional[Profile], self.profile) is None:
+            raise MissingParametersException(
+                "No data.all profile is configured for this client; run dataall_cli configure"
+            )
         if (
             self.profile.credentials.token is None
             or self.profile.credentials.expires_at is None
