@@ -45,16 +45,21 @@ class AuthorizationClass(ABC):
 
             if not refresh_successful:
                 logger.info("Failed to refresh token. Authenticating...")
-                username = self.profile.username
-                password = self.profile.password
-                if not username or self.profile.config_type == ConfigType.LOCAL.value:
-                    username = input("Provide your data.all username: ")
-                if not password or self.profile.config_type == ConfigType.LOCAL.value:
-                    password = getpass.getpass(
-                        prompt="Provide your data.all password: "
-                    )
-                self._authenticate_and_get_token(username, password)
+                self._authenticate_interactive()
         return cast(str, self.profile.credentials.token)
+
+    def _authenticate_interactive(self) -> None:
+        """Collect credentials from the user and authenticate.
+
+        Subclasses that log in without a username and password override this.
+        """
+        username = self.profile.username
+        password = self.profile.password
+        if not username or self.profile.config_type == ConfigType.LOCAL.value:
+            username = input("Provide your data.all username: ")
+        if not password or self.profile.config_type == ConfigType.LOCAL.value:
+            password = getpass.getpass(prompt="Provide your data.all password: ")
+        self._authenticate_and_get_token(username, password)
 
     @abstractmethod
     def _refresh_and_get_token(self) -> bool:

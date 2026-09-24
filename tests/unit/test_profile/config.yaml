@@ -15,3 +15,12 @@ CustomDefault:
   idp_domain_url: XXXXXXXXXXX
   redirect_uri: https://XXXXXXXXXX
   session_token_endpoint: https://XXXXXXXXX.com/api/v1/authn
+OidcBrowserDefault:
+  api_endpoint_url: https://XXXXXXXX.execute-api.us-east-1.amazonaws.com/prod
+  auth_type: OidcBrowserAuth
+  client_id: XXXXXXXXXXX
+  fallback_redirect_uri: http://localhost:8766/callback
+  frontend_url: https://XXXXXXXX.dataall.example.com
+  idp_domain_url: https://XXXXXXXX.okta.com/oauth2/XXXXXXXX
+  redirect_uri: http://localhost:8765/callback
+  scopes: openid offline_access

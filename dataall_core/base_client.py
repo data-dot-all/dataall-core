@@ -45,12 +45,13 @@ class BaseClient:
 
         :return: dict
         """
-        self.http_client = httpx.Client(
-            headers={
-                "Authorization": f"Bearer {self.authorizer.get_jwt_token()}",
-                **self.custom_headers,
-            }
-        )
+        headers = {"Authorization": f"Bearer {self.authorizer.get_jwt_token()}"}
+        frontend_url = getattr(self.authorizer.profile, "frontend_url", None)
+        if frontend_url:
+            origin = frontend_url.rstrip("/")
+            headers.update({"Origin": origin, "Referer": f"{origin}/"})
+        headers.update(self.custom_headers)
+        self.http_client = httpx.Client(headers=headers)
         response = self._execute(
             query=query,
             operation_name=operation_name,

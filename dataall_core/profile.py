@@ -46,6 +46,7 @@ class AuthType(Enum):
 
     Custom = "CustomAuth"
     Cognito = "CognitoAuth"
+    OidcBrowser = "OidcBrowserAuth"
 
 
 @dataclass
@@ -63,6 +64,11 @@ class Profile:
     config_type: str = ConfigType.LOCAL.value
     auth_server: Optional[str] = "default"  # For Custom
     session_token_endpoint: Optional[str] = None  # For Custom
+    scopes: Optional[str] = None  # For OidcBrowser
+    fallback_redirect_uri: Optional[str] = None  # For OidcBrowser
+    frontend_url: Optional[str] = (
+        None  # Sent as Origin; some API WAFs allow only the UI origin
+    )
     username: Optional[str] = None  # For config stored in secret
     password: Optional[str] = None  # For config stored in secret
     creds_path: str = str(CREDENTIALS_PATH)

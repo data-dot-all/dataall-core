@@ -119,3 +119,20 @@ def test_dataall_client_create_methods_default(mock_loader):
         non_kwarg = "non_kwarg"
         getattr(base_client, "test_query1")(non_kwarg)
         assert e == "test_query1() only accepts keyword arguments."
+
+
+def test_find_authorizer_oidc_browser(mock_loader, tmp_path):
+    from dataall_core.auth import OidcBrowserAuth
+    from dataall_core.profile import Profile
+
+    profile = Profile(
+        profile_name="oidc",
+        auth_type="OidcBrowserAuth",
+        api_endpoint_url="https://da-api-endpoint.com/tst",
+        client_id="client_id",
+        redirect_uri="http://localhost:8765/callback",
+        idp_domain_url="https://idp.example.com/oauth2/aus1",
+        creds_path=str(tmp_path / "credentials.yaml"),
+    )
+    authorizer = DataallClient(loader=mock_loader)._find_authorizer(profile)
+    assert isinstance(authorizer, OidcBrowserAuth)
