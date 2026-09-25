@@ -1,4 +1,5 @@
 import os
+from dataclasses import replace
 from unittest.mock import patch
 
 import httpx
@@ -170,3 +171,47 @@ def test_base_client_error_code(
             operation_name="tstOperation", query="query testQuery1 (){ }", api_params={}
         )
     assert str(e.value) == "HTTP status code: 404"
+
+
+def test_execute_without_frontend_url_sends_no_origin(
+    custom_profile, mock_get_jwt_token, mock_query_success, mocked_custom_api
+):
+    BaseClient(authorizer=CustomAuth(custom_profile)).execute(
+        "tstOperation", "query", {}
+    )
+    headers = mocked_custom_api["api_endpoints"].calls.last.request.headers
+    assert "Origin" not in headers
+    assert "Referer" not in headers
+
+
+def test_execute_sends_origin_for_frontend_url(
+    custom_profile, mock_get_jwt_token, mock_query_success, mocked_custom_api
+):
+    profile = replace(
+        custom_profile,
+        frontend_url="https://dataall-ui.example.com/",
+        creds_path=PROFILE_CREDS,
+    )
+    BaseClient(authorizer=CustomAuth(profile)).execute("tstOperation", "query", {})
+    headers = mocked_custom_api["api_endpoints"].calls.last.request.headers
+    assert headers["Origin"] == "https://dataall-ui.example.com"
+    assert headers["Referer"] == "https://dataall-ui.example.com/"
+    assert headers["Authorization"] == "Bearer sampletoken"
+
+
+def test_execute_custom_headers_override_origin(
+    custom_profile, mock_get_jwt_token, mock_query_success, mocked_custom_api
+):
+    profile = replace(
+        custom_profile,
+        frontend_url="https://dataall-ui.example.com",
+        creds_path=PROFILE_CREDS,
+    )
+    client = BaseClient(
+        authorizer=CustomAuth(profile), custom_headers={"Origin": "https://other"}
+    )
+    client.execute("tstOperation", "query", {})
+    assert (
+        mocked_custom_api["api_endpoints"].calls.last.request.headers["Origin"]
+        == "https://other"
+    )

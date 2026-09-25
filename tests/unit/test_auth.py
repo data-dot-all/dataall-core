@@ -7,6 +7,7 @@ import requests_mock
 import respx
 
 from dataall_core.auth import CognitoAuth, CustomAuth
+from dataall_core.exceptions import MissingParametersException
 from dataall_core.profile import AuthType, ConfigType, Profile
 
 logger = logging.getLogger("dataall_core").setLevel(logging.DEBUG)
@@ -197,3 +198,8 @@ def test_authenticate_and_get_token_no_profile():
     auth = CognitoAuth()
     with pytest.raises(Exception):
         auth.get_jwt_token()
+
+
+def test_get_jwt_token_without_profile_raises_clean_error():
+    with pytest.raises(MissingParametersException, match="dataall_cli configure"):
+        CognitoAuth().get_jwt_token()

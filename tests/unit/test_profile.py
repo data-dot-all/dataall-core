@@ -239,3 +239,27 @@ def test_save_profile():
             assert getattr(profile, k) == v
 
         assert isinstance(profile, Profile)
+
+
+def test_profile_oidc_browser(base_profile_params):
+    profile = Profile(**base_profile_params, auth_type=AuthType.OidcBrowser.value)
+    assert profile.scopes is None
+    assert profile.fallback_redirect_uri is None
+
+
+def test_get_profile_oidc_browser():
+    profile = get_profile(profile="OidcBrowserDefault", config_path=PROFILE_CONFIG)
+    assert isinstance(profile, Profile)
+    assert profile.scopes == "openid offline_access"
+    assert profile.fallback_redirect_uri == "http://localhost:8766/callback"
+    assert profile.frontend_url == "https://XXXXXXXX.dataall.example.com"
+
+
+def test_save_profile_omits_unset_oidc_fields(base_profile_params):
+    profile = Profile(**base_profile_params)
+    with tempfile.NamedTemporaryFile() as output_file:
+        save_profile(profile=profile, config_path=Path(output_file.name))
+        saved = get_profile_config_yaml(profile.profile_name, Path(output_file.name))
+    assert "scopes" not in saved
+    assert "fallback_redirect_uri" not in saved
+    assert "frontend_url" not in saved

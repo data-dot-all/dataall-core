@@ -13,6 +13,10 @@ class MissingParameterSecretException(Exception):
     """Missing Parameters Exception."""
 
 
+class AuthenticationException(Exception):
+    """Interactive authentication failed."""
+
+
 class GraphQLClientError(Exception):
     """GraphQL Base Exception."""
 
