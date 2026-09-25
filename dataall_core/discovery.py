@@ -37,7 +37,7 @@ def discover_from_frontend(dataall_url: str) -> Dict[str, str]:
     Returns ``frontend_url`` plus whichever values were found.
     """
     found = {"frontend_url": frontend_origin(dataall_url)}
-    base = dataall_url.rstrip("/") + "/"
+    base = found["frontend_url"] + "/"
     index = httpx.get(base, follow_redirects=True, timeout=30)
     index.raise_for_status()
     match = BUNDLE_PATTERN.search(index.text)

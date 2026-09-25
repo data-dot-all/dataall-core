@@ -70,6 +70,14 @@ def test_discover_cognito_deployment(mocker):
     }
 
 
+def test_discover_uses_the_origin_for_deep_links(mocker):
+    serve(mocker, pages(OIDC_BUNDLE))
+    assert (
+        discover_from_frontend(f"{FRONT}/console/environments")["client_id"]
+        == "0oaCLIENT"
+    )
+
+
 def test_discover_partial_bundle(mocker):
     serve(
         mocker,
