@@ -24,6 +24,7 @@ from dataall_core.profile import Profile
 logger = logging.getLogger(__name__)
 
 DEFAULT_REDIRECT_URI = "http://localhost:8765/callback"
+DEFAULT_FALLBACK_REDIRECT_URI = "http://localhost:8766/callback"
 DEFAULT_SCOPES = "openid offline_access"
 SCOPE_RETRY_ERRORS = ("invalid_scope", "access_denied")
 LOGIN_TIMEOUT_SECONDS = 300

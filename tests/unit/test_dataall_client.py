@@ -136,3 +136,95 @@ def test_find_authorizer_oidc_browser(mock_loader, tmp_path):
     )
     authorizer = DataallClient(loader=mock_loader)._find_authorizer(profile)
     assert isinstance(authorizer, OidcBrowserAuth)
+
+
+OIDC_DISCOVERY = {
+    "frontend_url": "https://dataall.example.com",
+    "auth_type": "OidcBrowserAuth",
+    "idp_domain_url": "https://idp/oauth2/aus1",
+    "client_id": "0oaCLIENT",
+    "api_endpoint_url": "https://api/prod",
+}
+
+
+def test_client_from_frontend_discovers_and_saves_profile(
+    mock_loader, tmp_path, mocker
+):
+    from dataall_core.auth import OidcBrowserAuth
+    from dataall_core.profile import get_profile
+
+    discover = mocker.patch(
+        "dataall_core.discovery.discover_from_frontend",
+        side_effect=lambda url: dict(OIDC_DISCOVERY),
+    )
+    config_path = str(tmp_path / "config.yaml")
+    client = DataallClient(loader=mock_loader).client(
+        dataall_url="https://dataall.example.com/console/", config_path=config_path
+    )
+    assert isinstance(client.authorizer, OidcBrowserAuth)
+    profile = client.authorizer.profile
+    assert profile.profile_name == "dataall.example.com"
+    assert profile.client_id == "0oaCLIENT"
+    assert profile.frontend_url == "https://dataall.example.com"
+    assert profile.redirect_uri == "http://localhost:8765/callback"
+
+    saved = get_profile(profile="dataall.example.com", config_path=config_path)
+    assert saved.idp_domain_url == "https://idp/oauth2/aus1"
+
+    DataallClient(loader=mock_loader).client(
+        dataall_url="https://dataall.example.com", config_path=config_path
+    )
+    discover.assert_called_once()
+
+
+def test_client_from_frontend_with_profile_name(mock_loader, tmp_path, mocker):
+    mocker.patch(
+        "dataall_core.discovery.discover_from_frontend",
+        side_effect=lambda url: dict(OIDC_DISCOVERY),
+    )
+    config_path = str(tmp_path / "config.yaml")
+    client = DataallClient(loader=mock_loader).client(
+        profile="staging",
+        dataall_url="https://dataall.example.com",
+        config_path=config_path,
+    )
+    assert client.authorizer.profile.profile_name == "staging"
+
+
+def test_client_from_frontend_existing_profile_wins(mock_loader, tmp_path, mocker):
+    from dataall_core.profile import Profile, save_profile
+
+    discover = mocker.patch("dataall_core.discovery.discover_from_frontend")
+    config_path = tmp_path / "config.yaml"
+    save_profile(
+        Profile(
+            profile_name="dataall.example.com",
+            api_endpoint_url="https://api/prod",
+            client_id="existing",
+            redirect_uri="http://localhost:8765/callback",
+            idp_domain_url="https://idp/oauth2/aus1",
+            auth_type="OidcBrowserAuth",
+            frontend_url="https://other.example.com",
+            creds_path=str(tmp_path / "c.yaml"),
+        ),
+        config_path,
+    )
+    client = DataallClient(loader=mock_loader).client(
+        dataall_url="https://dataall.example.com", config_path=str(config_path)
+    )
+    assert client.authorizer.profile.client_id == "existing"
+    discover.assert_not_called()
+
+
+def test_client_from_frontend_missing_values(mock_loader, tmp_path, mocker):
+    from dataall_core.exceptions import MissingParametersException
+
+    mocker.patch(
+        "dataall_core.discovery.discover_from_frontend",
+        return_value={"frontend_url": "https://dataall.example.com"},
+    )
+    with pytest.raises(MissingParametersException, match="auth_type"):
+        DataallClient(loader=mock_loader).client(
+            dataall_url="https://dataall.example.com",
+            config_path=str(tmp_path / "c.yaml"),
+        )

@@ -5,7 +5,18 @@ from pathlib import Path
 from typing import Any, Dict, Optional, cast
 
 from dataall_core.auth import AuthorizationClass, CognitoAuth
-from dataall_core.profile import CONFIG_PATH, DEFAULT_PROFILE, Profile, get_profile
+from dataall_core.discovery import (
+    frontend_origin,
+    profile_from_frontend,
+    profile_name_for,
+)
+from dataall_core.profile import (
+    CONFIG_PATH,
+    DEFAULT_PROFILE,
+    Profile,
+    get_profile,
+    save_profile,
+)
 
 from .base_client import BaseClient
 from .loader import Loader
@@ -34,9 +45,14 @@ class DataallClient:
         config_path: Optional[str] = None,
         secret_arn: Optional[str] = None,
         custom_headers: Dict[str, Any] = {},
+        dataall_url: Optional[str] = None,
     ) -> BaseClient:
         """
         Create a client instance for data.all.
+
+        ``dataall_url`` is the data.all front page. When the profile is not configured
+        yet, the connection settings are read from that page and saved as a profile
+        named after its host, so later calls skip the lookup.
 
         :return: BaseClient
         """
@@ -58,11 +74,23 @@ class DataallClient:
 
         cls = type("dataall", tuple(bases), class_attributes)
 
+        path = Path(config_path or CONFIG_PATH)
+        if dataall_url and not profile:
+            profile = profile_name_for(dataall_url)
         da_profile = get_profile(
-            profile=profile or DEFAULT_PROFILE,
-            config_path=Path(config_path or CONFIG_PATH),
-            secret_arn=secret_arn,
+            profile=profile or DEFAULT_PROFILE, config_path=path, secret_arn=secret_arn
         )
+        if dataall_url and da_profile is None:
+            da_profile = profile_from_frontend(dataall_url, profile_name=profile)
+            save_profile(da_profile, path)
+        elif (
+            dataall_url
+            and da_profile
+            and da_profile.frontend_url != frontend_origin(dataall_url)
+        ):
+            logger.warning(
+                f"Profile {profile} points at {da_profile.frontend_url}, not {dataall_url}; using the profile"
+            )
 
         authorizer = (
             self._find_authorizer(da_profile) if da_profile else CognitoAuth(da_profile)
